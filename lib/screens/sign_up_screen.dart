@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 //import 'package:image_picker/image_picker.dart';
 import 'package:social_app/resources/auth_methods.dart';
 import 'package:social_app/utils/colors.dart';
+import 'package:social_app/utils/utils.dart';
 import 'package:social_app/widgets/text_field_input.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -17,6 +21,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordControler = TextEditingController();
   final TextEditingController _bioControler = TextEditingController();
   final TextEditingController _usernameControler = TextEditingController();
+  Uint8List? _image;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -25,6 +31,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _passwordControler.dispose();
     _usernameControler.dispose();
     _bioControler.dispose();
+  }
+
+  void selectImage() async {
+    //Uint8List im = await pickImage(ImageSource.gallery);
+    var im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().signupUSer(
+      email: _emailControler.text,
+      password: _passwordControler.text,
+      username: _usernameControler.text,
+      bio: _bioControler.text,
+      file: _image!,
+    );
+    setState(() {
+      _isLoading = false;
+    });
+    if (res != 'success') {
+      showSnakBar(res, context);
+    }
   }
 
   @override
@@ -53,16 +86,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
               //circular widget to acecpt and show our selected file
               Stack(
                 children: [
-                  const CircleAvatar(
-                    radius: 64,
-                    backgroundImage: NetworkImage(
-                        'https://images.unsplash.com/photo-1688406434758-28b7b2ebbdc0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=388&q=80'),
-                  ),
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : const CircleAvatar(
+                          radius: 64,
+                          backgroundImage: NetworkImage(
+                              'https://t4.ftcdn.net/jpg/04/10/43/77/360_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg'),
+                        ),
                   Positioned(
                     bottom: -10,
                     left: 80,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: selectImage,
                       icon: const Icon(Icons.add_a_photo),
                     ),
                   ),
@@ -102,16 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               InkWell(
                 //Login button
-                onTap: () async { 
-                  String res = await AuthMethods().signupUSer(
-                    email: _emailControler.text,
-                    password: _passwordControler.text,
-                    username: _usernameControler.text,
-                    bio: _bioControler.text,
-                    //file: _image
-                  );
-                  print(res);
-                },
+                onTap: signUpUser,
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
@@ -123,7 +152,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       color: blueColor),
-                  child: const Text('Sign up'),
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        )
+                      : const Text('Sign up'),
                 ),
               ),
               const SizedBox(height: 10),
