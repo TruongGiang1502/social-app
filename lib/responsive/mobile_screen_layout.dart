@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:social_app/models/user.dart' as model;
 import 'package:social_app/providers/user_provider.dart';
 import 'package:social_app/utils/colors.dart';
+import 'package:social_app/utils/global_variables.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({super.key});
@@ -44,16 +45,10 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     //model.Users user  = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       body: PageView(
-        children: [
-          Text('feed'),
-          Text('search'),
-          Text('add post'),
-          Text('Notif'),
-          Text('profile')
-        ],
         physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
+        children: homeScreenItems,
       ),
       bottomNavigationBar:
           CupertinoTabBar(backgroundColor: mobileBackgroundColor, items: [
