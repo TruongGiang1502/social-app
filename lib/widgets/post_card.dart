@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:social_app/utils/colors.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key});
+  final snap;
+  const PostCard({required this.snap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +19,13 @@ class PostCard extends StatelessWidget {
                 .copyWith(right: 0),
             child: Row(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                      'https://plus.unsplash.com/premium_photo-1671586882920-8cd59c84cdfe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Z2lybHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60'),
+                    snap['profImage']
+                  ),
                 ),
-                const Expanded(
+                Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(left: 8),
                     child: Column(
@@ -30,8 +33,8 @@ class PostCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'username',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          snap['username'],
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
                     ),
@@ -68,12 +71,13 @@ class PostCard extends StatelessWidget {
               ],
             ), 
           ),
+
           //image section
           SizedBox(
             height: MediaQuery.of(context).size.height*0.35,
             width: double.infinity,
             child: Image.network(
-              'https://plus.unsplash.com/premium_photo-1671586882051-fa5d61654bc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fGdpcmx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
+              snap['postUrl'],
               fit: BoxFit.cover,
             )
           ),
@@ -125,7 +129,7 @@ class PostCard extends StatelessWidget {
                     fontWeight: FontWeight.w800
                   ),
                   child: Text(
-                    '129 likes',
+                    '${snap['likes'].length} likes',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -137,13 +141,13 @@ class PostCard extends StatelessWidget {
                       style: const TextStyle(color: primaryColor),
                       children: [
                         TextSpan(
-                          text: 'username ',
+                          text: snap['username'],
                           style: const TextStyle(
                             fontWeight: FontWeight.bold
                           ),
                         ),
                         TextSpan(
-                          text: 'Em đẹp em xinh em, anh có yêu em không? Chứ em gất là yêu anh',
+                          text: '  ${snap['decription']}',
                           style: const TextStyle(
                             fontWeight: FontWeight.normal
                           ),
@@ -156,7 +160,7 @@ class PostCard extends StatelessWidget {
                 InkWell(
                   onTap: (){},
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 4),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
                       'View all 30 comments',
                       style: const TextStyle(fontSize: 16, color: secondaryColor),
@@ -167,7 +171,7 @@ class PostCard extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 4),
                   child: Text(
-                    '18/07/2023',
+                    DateFormat.yMMMd().format(snap['datePublished'].toDate(),),
                     style: const TextStyle(fontSize: 16, color: secondaryColor),
                     
                   ),
