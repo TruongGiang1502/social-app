@@ -1,10 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:social_app/models/user.dart' as model;
-import 'package:social_app/providers/user_provider.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/utils/global_variables.dart';
 
