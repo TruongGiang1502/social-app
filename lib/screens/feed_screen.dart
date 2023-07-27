@@ -21,7 +21,7 @@ class FeedScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.messenger_outline),
+            icon: const Icon(Icons.messenger_outline),
           ),
         ],
       ),

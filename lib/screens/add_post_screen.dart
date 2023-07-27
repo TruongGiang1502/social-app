@@ -82,7 +82,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   child: const Text('Cancel'),
                   onPressed: () {
                     Navigator.of(context).pop();
-                  })
+                  }
+                ),
             ],
           );
         });

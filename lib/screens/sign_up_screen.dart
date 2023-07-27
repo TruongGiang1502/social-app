@@ -1,9 +1,7 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:image_picker/image_picker.dart';
 import 'package:social_app/resources/auth_methods.dart';
 import 'package:social_app/responsive/mobile_screen_layout.dart';
 import 'package:social_app/responsive/responsive_layout.dart';

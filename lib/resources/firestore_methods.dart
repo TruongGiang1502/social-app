@@ -35,7 +35,8 @@ class FirestoreMethods {
     }
     return res;
   }
-  Future<void> likePost(String postID, String uid, List likes) async {
+  Future<String> likePost(String postID, String uid, List likes) async {
+    String res = "Some error occured";
     try {
       if(likes.contains(uid)){
         await _firestore.collection('posts').doc(postID).update({
@@ -49,8 +50,9 @@ class FirestoreMethods {
       }
 
     } catch(e){
-      print(e.toString(),);
+      res = e.toString();
     }
+    return res;
   }
 
   Future <String> postComment(String postId, String text, String uid, String name, String profilePic) async {
@@ -84,11 +86,13 @@ class FirestoreMethods {
 
   //delete post
 
-  Future <void> deletePost (String postId) async {
+  Future <String> deletePost (String postId) async {
+    String res = "Some error occured";
     try {
       await _firestore.collection('posts').doc(postId).delete();
     } catch (err){
-      print(err.toString());
+      res = err.toString();
     }
+    return res;
   } 
 }
