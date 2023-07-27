@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_app/models/user.dart' as model;
 import 'package:social_app/resources/storage_methods.dart';

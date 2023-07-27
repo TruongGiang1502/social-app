@@ -5,7 +5,6 @@ import 'package:social_app/providers/user_provider.dart';
 import 'package:social_app/resources/firestore_methods.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/widgets/comment_card.dart';
-
 import '../models/user.dart';
 
 class CommentScreen extends StatefulWidget {
