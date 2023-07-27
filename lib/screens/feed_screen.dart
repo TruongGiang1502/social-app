@@ -2,15 +2,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:social_app/utils/colors.dart';
+import 'package:social_app/utils/global_variables.dart';
 import 'package:social_app/widgets/post_card.dart';
 
-class FeedScreen extends StatelessWidget {
+class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
 
   @override
+  State<FeedScreen> createState() => _FeedScreenState();
+}
+
+class _FeedScreenState extends State<FeedScreen> {
+  @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    
     return Scaffold(
-      appBar: AppBar(
+      backgroundColor: width >webSreenSize? webBackgroundColor : mobileBackgroundColor,
+      appBar: width>webSreenSize?null
+      : AppBar(
         backgroundColor: mobileBackgroundColor,
         centerTitle: false,
         title: SvgPicture.asset(
@@ -35,8 +45,14 @@ class FeedScreen extends StatelessWidget {
           }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
-            itemBuilder: (context, index) => PostCard(
-              snap:snapshot.data!.docs[index].data(),
+            itemBuilder: (context, index) => Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: width > webSreenSize ? width*0.3:0,
+                vertical:  width > webSreenSize ? 15:0
+              ),
+              child: PostCard(
+                snap:snapshot.data!.docs[index].data(),
+              ),
             ),
           );
         }

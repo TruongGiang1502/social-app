@@ -6,6 +6,7 @@ import 'package:social_app/responsive/responsive_layout.dart';
 import 'package:social_app/responsive/web_screen_layout.dart';
 import 'package:social_app/screens/sign_up_screen.dart';
 import 'package:social_app/utils/colors.dart';
+import 'package:social_app/utils/global_variables.dart';
 import 'package:social_app/utils/utils.dart';
 import 'package:social_app/widgets/text_field_input.dart';
 
@@ -61,7 +62,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: MediaQuery.of(context).size.width > webSreenSize? 
+          EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width/3
+          )
+          :const EdgeInsets.symmetric(horizontal: 32),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

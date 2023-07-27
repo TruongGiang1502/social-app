@@ -15,11 +15,12 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
         options: const FirebaseOptions(
-      apiKey: 'AIzaSyC_pkqiWPLmhfjKTIo8e4c48c7qoHMy8ns',
-      appId: '1:693513604733:web:befeddff99c98d5bd3ab14',
-      messagingSenderId: '693513604733',
-      projectId: 'social-app-dee94',
-      storageBucket: 'social-app-dee94.appspot.com',
+      apiKey: "AIzaSyC_pkqiWPLmhfjKTIo8e4c48c7qoHMy8ns",
+      authDomain: "social-app-dee94.firebaseapp.com",
+      projectId: "social-app-dee94",
+      storageBucket: "social-app-dee94.appspot.com",
+      messagingSenderId: "693513604733",
+      appId: "1:693513604733:web:befeddff99c98d5bd3ab14"
     ));
   } else {
     await Firebase.initializeApp();

@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:social_app/resources/auth_methods.dart';
+import 'package:social_app/resources/firestore_methods.dart';
+import 'package:social_app/screens/login_screen.dart';
 import 'package:social_app/utils/colors.dart';
 import 'package:social_app/utils/utils.dart';
 import 'package:social_app/widgets/follow_button.dart';
@@ -107,9 +110,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             backgroundColor:
                                                 mobileBackgroundColor,
                                             borderColor: Colors.grey,
-                                            text: 'Edit profile',
+                                            text: 'Sign out',
                                             textColor: primaryColor,
-                                            function: () {},
+                                            function: () async {
+                                              await AuthMethods().signOut();
+                                              Navigator.of(context).pushReplacement(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const LoginScreen()));
+                                            },
                                           )
                                         : isFollowing
                                             ? FollowButton(
@@ -117,14 +126,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 borderColor: Colors.grey,
                                                 text: 'Unfollow',
                                                 textColor: primaryColor,
-                                                function: () {},
+                                                function: () async {
+                                                  await FirestoreMethods()
+                                                      .followUser(
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid,
+                                                          userData['uid']);
+                                                  setState(() {
+                                                    isFollowing = false;
+                                                    follower--;
+                                                  });
+                                                },
                                               )
                                             : FollowButton(
                                                 backgroundColor: Colors.blue,
                                                 borderColor: Colors.blue,
                                                 text: 'Follow',
                                                 textColor: primaryColor,
-                                                function: () {},
+                                                function: () async {
+                                                  await FirestoreMethods()
+                                                      .followUser(
+                                                          FirebaseAuth.instance
+                                                              .currentUser!.uid,
+                                                          userData['uid']);
+                                                  setState(() {
+                                                    isFollowing = true;
+                                                    follower++;
+                                                  });
+                                                },
                                               ),
                                   ],
                                 ),
@@ -174,18 +203,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 1.5,
                                   childAspectRatio: 1),
-                          itemBuilder: (context,index){
-                            DocumentSnapshot snap = (snapshot.data! as dynamic).docs[index];
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot snap =
+                                (snapshot.data! as dynamic).docs[index];
                             return Container(
                               child: Image(
                                 image: NetworkImage(
-                                  (snap.data()! as dynamic)['postUrl']
-                                ),
-                                fit: BoxFit.cover, 
+                                    (snap.data()! as dynamic)['postUrl']),
+                                fit: BoxFit.cover,
                               ),
                             );
-                          }
-                        );
+                          });
                     }),
               ],
             ),
