@@ -46,11 +46,12 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           );
     } else {
+      setState(() {
+      _isLoading = false;
+      });
       showSnackBar(res, context);
     }
-    setState(() {
-      _isLoading = true;
-    });
+    
   }
 
   void navigateToSignup(){

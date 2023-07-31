@@ -206,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           itemBuilder: (context, index) {
                             DocumentSnapshot snap =
                                 (snapshot.data! as dynamic).docs[index];
-                            return Container(
+                            return SizedBox(
                               child: Image(
                                 image: NetworkImage(
                                     (snap.data()! as dynamic)['postUrl']),
